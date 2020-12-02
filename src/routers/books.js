@@ -4,7 +4,7 @@ const auth = require('../middleware/auth')
 const router = new express.Router()
 
 
-router.post('/books', auth, async (req, res) => {
+router.post('/post/books', auth, async (req, res) => {
     const book = new Books(req.body)
 
     try {
@@ -15,7 +15,7 @@ router.post('/books', auth, async (req, res) => {
     }
 })
 
-router.get('/books/details', async (req, res) => {
+router.get('/get/books/details', async (req, res) => {
     const books = await Books.find({})
 
     if (!books) {
@@ -25,13 +25,13 @@ router.get('/books/details', async (req, res) => {
     res.send(books)
 })
 
-router.get('/books/list', async (req, res) => {
+router.get('/get/books/list', async (req, res) => {
     const books = await Books.find({})
     const up = books.map(book => book.title)
     res.send(up)
 })
 
-router.delete('/books/:id', auth, async (req, res) => {
+router.delete('/delete/books/:id', auth, async (req, res) => {
     try {
         const book = await Books.findOneAndDelete({ _id: req.params.id })
         if (!book) {
@@ -44,7 +44,7 @@ router.delete('/books/:id', auth, async (req, res) => {
     }
 })
 
-router.patch('/books/:id', auth, async (req, res) => {
+router.patch('/patch/books/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['title', 'author', 'genre', 'publisher']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
